@@ -59,7 +59,7 @@ const App = () => {
     }
   } else {
     // No option selected
-    alert("Please select an option.");
+    alert("Please choose a bank!");
   }
 };
 
