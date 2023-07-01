@@ -38,14 +38,25 @@ const App = () => {
       // prepare UI
       setUploading(true);
 
-      // *** UPLOAD TO AZURE STORAGE ***
-      await uploadFileToBlob(fileSelected, selectedOption);
+      try {
+        // *** UPLOAD TO AZURE STORAGE ***
+        await uploadFileToBlob(fileSelected, selectedOption);
 
-      // reset state/form
-      setFileSelected(null);
-      setFileUploaded(fileSelected.name);
-      setUploading(false);
-      setInputKey(Math.random().toString(36));
+        // reset state/form
+        setFileSelected(null);
+        setFileUploaded(fileSelected.name);
+        setUploading(false);
+        setInputKey(Math.random().toString(36));
+      } catch (error) {
+        // Display error message
+        console.error("Error uploading file:", error);
+        // Show error message to the user
+        alert("Only CSV files are allowed.");
+        // Reset state/form
+        setFileSelected(null);
+        setUploading(false);
+        setInputKey(Math.random().toString(36));
+      }
     }
   };
 

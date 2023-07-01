@@ -52,6 +52,10 @@ export const getBlobsInContainer = async () => {
 
 // <snippet_createBlobInContainer>
 const createBlobInContainer = async (file, selectedOption) => {
+  // Check if the file is a CSV
+  if (file.type !== "text/csv") {
+    throw new Error("Only CSV files are allowed.");
+  }
   // create blobClient for container
   const blobName = `Finances/${selectedOption}/${file.name}`;
   const blobClient = containerClient.getBlockBlobClient(blobName);
@@ -68,8 +72,13 @@ const createBlobInContainer = async (file, selectedOption) => {
 const uploadFileToBlob = async (file, selectedOption) => {
   if (!file || !selectedOption) return;
 
-  // upload file
-  await createBlobInContainer(file, selectedOption);
+  try {
+    // upload file
+    await createBlobInContainer(file, selectedOption);
+  } catch (error) {
+    console.error("Error uploading file:", error);
+    throw error;
+  }
 };
 // </snippet_uploadFileToBlob>
 
