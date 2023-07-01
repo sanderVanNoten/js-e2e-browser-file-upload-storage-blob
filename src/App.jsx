@@ -34,31 +34,34 @@ const App = () => {
   };
 
   const onFileUpload = async () => {
-    if (fileSelected && fileSelected.name && selectedOption) {
-      // prepare UI
-      setUploading(true);
+  if (fileSelected && fileSelected.name && selectedOption) {
+    // prepare UI
+    setUploading(true);
 
-      try {
-        // *** UPLOAD TO AZURE STORAGE ***
-        await uploadFileToBlob(fileSelected, selectedOption);
+    try {
+      // *** UPLOAD TO AZURE STORAGE ***
+      await uploadFileToBlob(fileSelected, selectedOption);
 
-        // reset state/form
-        setFileSelected(null);
-        setFileUploaded(fileSelected.name);
-        setUploading(false);
-        setInputKey(Math.random().toString(36));
-      } catch (error) {
-        // Display error message
-        console.error("Error uploading file:", error);
-        // Show error message to the user
-        alert("Only CSV files are allowed.");
-        // Reset state/form
-        setFileSelected(null);
-        setUploading(false);
-        setInputKey(Math.random().toString(36));
-      }
+      // reset state/form
+      setFileSelected(null);
+      setFileUploaded(fileSelected.name);
+      setUploading(false);
+      setInputKey(Math.random().toString(36));
+    } catch (error) {
+      // Display error message
+      console.error("Error uploading file:", error);
+      // Show error message to the user
+      alert("Only CSV files are allowed.");
+      // Reset state/form
+      setFileSelected(null);
+      setUploading(false);
+      setInputKey(Math.random().toString(36));
     }
-  };
+  } else {
+    // No option selected
+    alert("Please select an option.");
+  }
+};
 
   const [selectedOption, setSelectedOption] = useState("");
   console.log(selectedOption);

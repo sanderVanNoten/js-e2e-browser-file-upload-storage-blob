@@ -53,7 +53,9 @@ export const getBlobsInContainer = async () => {
 // <snippet_createBlobInContainer>
 const createBlobInContainer = async (file, selectedOption) => {
   // Check if the file is a CSV
-  if (file.type !== "text/csv") {
+  const isCSV = file.name.toLowerCase().endsWith(".csv");
+
+  if (!isCSV) {
     throw new Error("Only CSV files are allowed.");
   }
   // create blobClient for container
