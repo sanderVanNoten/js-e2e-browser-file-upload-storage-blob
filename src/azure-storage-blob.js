@@ -10,15 +10,14 @@ const storageAccountName = process.env.REACT_APP_AZURE_STORAGE_RESOURCE_NAME;
 // </snippet_package>
 
 // <snippet_get_client>
-const uploadUrl = `https://${storageAccountName}.blob.core.windows.net/${containerName}/Finances/KBC?${sasToken}`;
+const uploadUrl = `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`;
 console.log(uploadUrl);
 
 // get BlobService = notice `?` is pulled out of sasToken - if created in Azure portal
 const blobService = new BlobServiceClient(uploadUrl);
 
 // get Container - full public read access
-const containerClient =
-  blobService.getContainerClient(containerName);
+const containerClient = blobService.getContainerClient(containerName);
 // </snippet_get_client>
 
 // <snippet_isStorageConfigured>
@@ -39,9 +38,9 @@ export const getBlobsInContainer = async () => {
     console.log(`${blob.name}`);
 
     const blobItem = {
-      url: `https://${storageAccountName}.blob.core.windows.net/${containerName}/Finances/KBC?${sasToken}`,
-      name: blob.name
-    }
+      url: `https://${storageAccountName}.blob.core.windows.net/${containerName}/${blob.name}?${sasToken}`,
+      name: blob.name,
+    };
 
     // if image is public, just construct URL
     returnedBlobUrls.push(blobItem);
@@ -52,9 +51,10 @@ export const getBlobsInContainer = async () => {
 // </snippet_getBlobsInContainer>
 
 // <snippet_createBlobInContainer>
-const createBlobInContainer = async (file) => {
+const createBlobInContainer = async (file, selectedOption) => {
   // create blobClient for container
-  const blobClient = containerClient.getBlockBlobClient(file.name);
+  const blobName = `Finances/${selectedOption}/${file.name}`;
+  const blobClient = containerClient.getBlockBlobClient(blobName);
 
   // set mimetype as determined from browser with file upload control
   const options = { blobHTTPHeaders: { blobContentType: file.type } };
@@ -65,11 +65,11 @@ const createBlobInContainer = async (file) => {
 // </snippet_createBlobInContainer>
 
 // <snippet_uploadFileToBlob>
-const uploadFileToBlob = async (file) => {
-  if (!file) return;
+const uploadFileToBlob = async (file, selectedOption) => {
+  if (!file || !selectedOption) return;
 
   // upload file
-  await createBlobInContainer(file);
+  await createBlobInContainer(file, selectedOption);
 };
 // </snippet_uploadFileToBlob>
 

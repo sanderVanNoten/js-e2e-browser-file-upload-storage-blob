@@ -1,8 +1,11 @@
 // ./src/App.tsx
 
-import React, { useState, useEffect } from 'react';
-import uploadFileToBlob, { isStorageConfigured, getBlobsInContainer } from './azure-storage-blob';
-import DisplayImagesFromContainer from './ContainerImages';
+import React, { useState, useEffect } from "react";
+import uploadFileToBlob, {
+  isStorageConfigured,
+  getBlobsInContainer,
+} from "./azure-storage-blob";
+import DisplayImagesFromContainer from "./ContainerImages";
 const storageConfigured = isStorageConfigured();
 
 const App = () => {
@@ -11,7 +14,7 @@ const App = () => {
 
   // current file to upload into container
   const [fileSelected, setFileSelected] = useState();
-  const [fileUploaded, setFileUploaded] = useState('');
+  const [fileUploaded, setFileUploaded] = useState("");
 
   // UI/form management
   const [uploading, setUploading] = useState(false);
@@ -19,10 +22,10 @@ const App = () => {
 
   // *** GET FILES IN CONTAINER ***
   useEffect(() => {
-    getBlobsInContainer().then((list) =>{
+    getBlobsInContainer().then((list) => {
       // prepare UI for results
       setBlobList(list);
-    })
+    });
   }, [fileUploaded]);
 
   const onFileChange = (event) => {
@@ -31,26 +34,22 @@ const App = () => {
   };
 
   const onFileUpload = async () => {
+    if (fileSelected && fileSelected.name && selectedOption) {
+      // prepare UI
+      setUploading(true);
 
-    if(fileSelected && fileSelected?.name){
-    // prepare UI
-    setUploading(true);
+      // *** UPLOAD TO AZURE STORAGE ***
+      await uploadFileToBlob(fileSelected, selectedOption);
 
-    // *** UPLOAD TO AZURE STORAGE ***
-    await uploadFileToBlob(fileSelected);
-
-    // reset state/form
-    setFileSelected(null);
-    setFileUploaded(fileSelected.name);
-    setUploading(false);
-    setInputKey(Math.random().toString(36));
-
+      // reset state/form
+      setFileSelected(null);
+      setFileUploaded(fileSelected.name);
+      setUploading(false);
+      setInputKey(Math.random().toString(36));
     }
-
   };
 
-  
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState("");
   console.log(selectedOption);
   const handleDropdownChange = (event) => {
     setSelectedOption(event.target.value);
@@ -58,22 +57,22 @@ const App = () => {
   // display form
   const DisplayForm = () => (
     <div>
-    <div>
-      <input type="file" onChange={onFileChange} key={inputKey || ''} />
-      <button type="submit" onClick={onFileUpload}>
-        Upload!
-          </button>
+      <div>
+        <input type="file" onChange={onFileChange} key={inputKey || ""} />
+        <button type="submit" onClick={onFileUpload}>
+          Upload!
+        </button>
+      </div>
+      <div>
+        <select value={selectedOption} onChange={handleDropdownChange}>
+          <option value="">Select another option</option>
+          <option value="KBC">KBC</option>
+          <option value="VDK">VDK</option>
+          <option value="Crelan">Crelan</option>
+        </select>
+      </div>
     </div>
-    <div>
-    <select value={selectedOption} onChange={handleDropdownChange}>
-        <option value="">Select another option</option>
-        <option value="KBC">KBC</option>
-        <option value="VDK">VDK</option>
-        <option value="Crelan">Crelan</option>
-      </select>
-    </div>
-    </div>
-  )
+  );
 
   return (
     <div>
@@ -81,13 +80,12 @@ const App = () => {
       {storageConfigured && !uploading && DisplayForm()}
       {storageConfigured && uploading && <div>Uploading</div>}
       <hr />
-      {storageConfigured && blobList.length > 0 && <DisplayImagesFromContainer blobList={blobList}/>}
+      {storageConfigured && blobList.length > 0 && (
+        <DisplayImagesFromContainer blobList={blobList} />
+      )}
       {!storageConfigured && <div>Storage is not configured.</div>}
     </div>
-    
   );
 };
 
 export default App;
-
-
