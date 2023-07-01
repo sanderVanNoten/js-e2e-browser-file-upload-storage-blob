@@ -4,13 +4,13 @@
 // THIS IS SAMPLE CODE ONLY - NOT MEANT FOR PRODUCTION USE
 import { BlobServiceClient } from "@azure/storage-blob";
 
-const containerName = `uploaded`;
+const containerName = `landingzone`;
 const sasToken = process.env.REACT_APP_AZURE_STORAGE_SAS_TOKEN;
 const storageAccountName = process.env.REACT_APP_AZURE_STORAGE_RESOURCE_NAME;
 // </snippet_package>
 
 // <snippet_get_client>
-const uploadUrl = `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`;
+const uploadUrl = `https://${storageAccountName}.blob.core.windows.net/${containerName}/Finances/KBC?${sasToken}`;
 console.log(uploadUrl);
 
 // get BlobService = notice `?` is pulled out of sasToken - if created in Azure portal
@@ -39,7 +39,7 @@ export const getBlobsInContainer = async () => {
     console.log(`${blob.name}`);
 
     const blobItem = {
-      url: `https://${storageAccountName}.blob.core.windows.net/${containerName}/${blob.name}?${sasToken}`,
+      url: `https://${storageAccountName}.blob.core.windows.net/${containerName}/Finances/KBC?${sasToken}`,
       name: blob.name
     }
 

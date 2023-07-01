@@ -49,13 +49,29 @@ const App = () => {
 
   };
 
+  
+  const [selectedOption, setSelectedOption] = useState('');
+  console.log(selectedOption);
+  const handleDropdownChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
   // display form
   const DisplayForm = () => (
+    <div>
     <div>
       <input type="file" onChange={onFileChange} key={inputKey || ''} />
       <button type="submit" onClick={onFileUpload}>
         Upload!
           </button>
+    </div>
+    <div>
+    <select value={selectedOption} onChange={handleDropdownChange}>
+        <option value="">Select another option</option>
+        <option value="KBC">KBC</option>
+        <option value="VDK">VDK</option>
+        <option value="Crelan">Crelan</option>
+      </select>
+    </div>
     </div>
   )
 
@@ -68,6 +84,7 @@ const App = () => {
       {storageConfigured && blobList.length > 0 && <DisplayImagesFromContainer blobList={blobList}/>}
       {!storageConfigured && <div>Storage is not configured.</div>}
     </div>
+    
   );
 };
 
