@@ -1,7 +1,7 @@
 
 const DisplayImagesFromContainer = ({blobList}) => (
     <div>
-      <h2>Container items</h2>
+      {/* <h2>Container items</h2>
       <ul>
         {blobList.map((item) => {
           return (
@@ -14,8 +14,7 @@ const DisplayImagesFromContainer = ({blobList}) => (
             </li>
           );
         })}
-      </ul>
+      </ul> */}
     </div>
   );
-
-  export default DisplayImagesFromContainer;
+export default DisplayImagesFromContainer;
