@@ -21,7 +21,7 @@ const storageConfigured = isStorageConfigured();
 
 const msalConfig = {
   auth: {
-    clientId: "93cf3f66-72d4-4b87-a079-649c75c2da95",
+    clientId: "8cf60b37-5dae-407d-944b-529dfc3d76a6",
     authority: "https://login.microsoftonline.com/didits.be",
     redirectUri: "https://victorious-moss-0e18e0003.3.azurestaticapps.net" // Update with your app's redirect URI
   }
