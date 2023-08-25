@@ -272,5 +272,5 @@ const onFileUpload = async () => {
     </div>
   );
 };
-
+console.log("werkt het nu?");
 export default App;
