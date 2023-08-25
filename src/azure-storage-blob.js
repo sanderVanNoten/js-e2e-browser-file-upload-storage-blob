@@ -11,7 +11,8 @@ const storageAccountName = process.env.REACT_APP_AZURE_STORAGE_RESOURCE_NAME;
 
 // const isLocalClient = 
 
-// </snippet_package>
+// </defailt Azure Credentail>
+const defaultAzureCredential = new DefaultAzureCredential();
 
 // <snippet_get_upload_url>
 const uploadLocalUrl = `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`;
